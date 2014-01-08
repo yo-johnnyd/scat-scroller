@@ -2,6 +2,7 @@
 	var theScat = document.createElement("audio"),
 		scatSrcMp3 = document.createElement('source'),
 		scatSrcOgg = document.createElement('source'),
+        timeout = null,
 		randomTime = Math.floor(Math.random() * (338 - 0 + 1)),
 		shouldSetRandom = true,
 		setRandomTime = function() {
@@ -26,11 +27,19 @@
 	theScat.addEventListener('canplay', setRandomTime);
 
 	window.onscroll = function(evt) {
+        if (timeout) {
+            window.clearTimeout(timeout);
+            timeout = null;
+        }
+
 		if(theScat.paused){
 			theScat.play();
-			window.setTimeout(function(){
-				theScat.pause();
-			}, 2000);
 		}
+
+        timeout = window.setTimeout(function(){
+            if (!theScat.paused) {
+                theScat.pause();
+            }
+        }, 500);
 	}
 }());
