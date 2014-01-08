@@ -26,7 +26,7 @@
 
 	theScat.addEventListener('canplay', setRandomTime);
 
-	window.onscroll = function(evt) {
+	window.addEventListener('scroll', function(evt) {
         if (timeout) {
             window.clearTimeout(timeout);
             timeout = null;
@@ -41,5 +41,5 @@
                 theScat.pause();
             }
         }, 500);
-	}
+	}, true);
 }());
