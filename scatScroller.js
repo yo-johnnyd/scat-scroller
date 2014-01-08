@@ -2,7 +2,15 @@
 	var theScat = document.createElement("audio"),
 		scatSrcMp3 = document.createElement('source'),
 		scatSrcOgg = document.createElement('source'),
-		randomTime = Math.floor(Math.random() * (338 - 0 + 1));;
+		randomTime = Math.floor(Math.random() * (338 - 0 + 1)),
+		shouldSetRandom = true,
+		setRandomTime = function() {
+			if(shouldSetRandom){
+				shouldSetRandom = false;
+				theScat.currentTime = randomTime;
+				theScat.removeEventListener('canplay', setRandomTime);
+			}
+		};
 
 	scatSrcMp3.setAttribute("src", "https://s3-us-west-1.amazonaws.com/scatsounds/scatComboLofi.mp3");
 	scatSrcMp3.setAttribute("type","audio/mpeg");
@@ -15,9 +23,7 @@
 	theScat.setAttribute("loop","true");
 	document.body.appendChild(theScat);
 
-	theScat.addEventListener('canplay', function(evt) {
-		theScat.currentTime = randomTime;
-	});
+	theScat.addEventListener('canplay', setRandomTime);
 
 	window.onscroll = function(evt) {
 		if(theScat.paused){
